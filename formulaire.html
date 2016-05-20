@@ -16,12 +16,15 @@
             /* /////////////////\\\\\\\\\\\\\\\\\\ */
             table{
                 margin:auto;
-                border:1px solid rgba(0,0,0,0.2);
             }
             td{
                 padding:20px;
                 border:none;
                 margin:auto;
+            }
+            /* /////////////////\\\\\\\\\\\\\\\\\\ */
+            .formulaire-achat{
+                border:1px solid rgba(0,0,0,0.1);
             }
             /* /////////////////\\\\\\\\\\\\\\\\\\ */
             input[type=range] {
@@ -49,6 +52,7 @@
             /* Chrome,Opera,Safari */
                 /* le curseur */
             input[type=range]::-webkit-slider-thumb{
+                -webkit-appearance: none;
                 height:14px;
                 width:8px;
                 background:#F64D00;
@@ -56,6 +60,9 @@
                 border-radius:0;
             }
                 /* la barre */
+            input[type=range]::-webkit-slider-runnable-track{
+                background: #aaa;
+            }
             input[type=range]:hover::-webkit-slider-runnable-track{
                 background: #ccc;
             }
@@ -85,6 +92,7 @@
                 text-transform: uppercase;
                 font-weight: bold;
                 padding:8px 16px;
+                background: transparent;
             }
             
             .btn-commander:hover{
@@ -95,6 +103,7 @@
             form{
                 font-style: italic;
                 max-width: 90%;
+                
             }
             form h6{
                 color:#F64D00;
@@ -109,6 +118,20 @@
                 font-style: normal;
             }
             /* /////////////////\\\\\\\\\\\\\\\\\\ */
+            .titre-form{
+                color:#F64D00;
+                font-size:2em;
+                font-style: normal;
+                text-align: center;
+            }
+            .td-center{
+                text-align: center;
+            }
+            .titre-infos{
+                color:#F64D00;
+                font-style: bold;
+                
+            }
         -->
     </style>
     <!-- Links -->
@@ -135,7 +158,7 @@
     <!--========================================================
                               HEADER
     =========================================================-->
-    <header>
+     <header>
         <div id="stuck_container" class="stuck_container">
             <div class="container container-wide">
 
@@ -143,67 +166,21 @@
 
                     <div class="navbar-header center-xs">
                         <h1 class="navbar-brand">
-                            <a href="./">Japan House</a>
+                            <a href="./">La clef des Simploniens !</a>
                         </h1>
                     </div>
 
 
                     <ul class="navbar-nav sf-menu navbar-right" data-type="navbar">
                         <li class="active">
-                            <a href="./">Home</a>
+                            <a href="./">Présentation</a>
                         </li>
                         <li>
-                            <a href="index-1.html">About us</a>
+                            <a href="index-1.html">Catalogue</a>
                         </li>
                         <li>
-                            <a href="index-2.html">Specialities</a>
+                            <a href="index-2.html">Une question ?!</a>
                         </li>
-
-                        <li class="dropdown">
-                            <a href="index-3.html">Menu</a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="#">Nigiri and Sashimi</a>
-                                </li>
-
-
-                                <li>
-                                    <a href="#">Vegetarian Rolls</a>
-                                </li>
-                                <li>
-                                    <a href="#">Gunkan</a>
-                                </li>
-                                <li>
-                                    <a href="#">Sushi Combination</a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a href="#">Sushi Set</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Rolls</a>
-                                        </li>
-                                        <li><a href="#">Nigiri Set</a></li>
-                                        <li><a href="404.html">404</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#">Our Speciality Rolls</a>
-                                </li>
-                                <li>
-                                    <a href="#">Kitchen Dishes</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="index-4.html">Services</a>
-                        </li>
-
-                        <li>
-                            <a href="index-5.html">Contact us</a>
-                        </li>
-
-                    </ul>
                 </nav>
             </div>
         </div>
@@ -215,8 +192,12 @@
     =========================================================-->
 
     <main>
+        <center class="formulaire-achat">
        <form>
         <table>
+            <tr>
+                <td colspan=2 class="td-center"><span class="titre-form">Formulaire de commande</span></td>
+            </tr>
             <tr>
                 <td colspan=2><input type="range" min="500" max="10000" step="500" value="1" oninput="document.getElementById('quantite').textContent=value;Afficher()"/></td>
             </tr>
@@ -248,10 +229,38 @@
                 <td><h6 id="total"></h6><b> €</b></td>
             </tr>
             <tr>
+                <td colspan=2 class="td-center titre-infos">Vos informations :</td>
+            </tr>
+            <tr>
+                <td>Société : </td>
+                <td><input type="text" name="societe" id="societe" required/></td>
+            </tr>
+            <tr>
+                <td>E-mail : </td>
+                <td><input type="email" name="email" id="email" required/></td>
+            </tr>
+            <tr>
+                <td>Tél : </td>
+                <td><input type="tel" name="tel" id="tel" /></td>
+            </tr>
+            <tr>
                 <td colspan=2><button class="btn-commander">Commander</button></td>
             </tr>
         </table>
        </form>
+       <!-- Paypal -->
+       <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+        <input type="hidden" name="cmd" value="_xclick">
+        <input type="hidden" name="business" value="clerio@simplon.com">
+        <input type="hidden" name="item_name" id="item_name" value="">
+        <input type="hidden" name="currency_code" value="EUR">
+        <input type="hidden" name="quantity" id="quantity" value="">
+        <input type="hidden" name="amount" id="amount" value="">
+        <input type="hidden" name="shipping" id="shipping" value="">
+        <input type="image" src="http://www.paypal.com/en_US/i/btn/x-click-but01.gif" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+        </form>
+       <!-- !Paypal -->
+       </center>
     <script type="text/javascript">
         //récupération des données
         function recupVars() {
@@ -287,13 +296,36 @@
             }
             return prixUnitaire.toFixed(2);
         }
-        
+        // Paypal
+        function ValeursPaypal(prix,quantite,anneau,marquage,fdp) {
+            var nom;
+            nom = 'Cles (';
+            switch (marquage) {
+                case 'Laser':
+                    nom += 'Gravure laser';
+                    break;
+                case 'Seri1':
+                    nom += 'Serigrapie 1 couleur';
+                    break;
+                case 'Seri2':
+                    nom += 'Serigrapie 2 couleurs';
+                    break;
+            }
+            nom += ')';
+            if (anneau === 'avec') {
+                nom += ' avec anneau';
+            }
+            document.getElementById("item_name").value = nom;
+            document.getElementById("amount").value = prix;
+            document.getElementById("quantity").value = quantite;
+            document.getElementById("shipping").value = fdp;
+        }
         // calcul du total
         function calculTotal() {
             // je récup les différentes valeurs dans un tableau
             var valeurs = recupVars();
             // valeurs[0] -> quantite
-            // valeurs[1] -> bool anneau
+            // valeurs[1] -> anneau avec/sans
             // valeurs[2] -> type de marquage
             // valeurs[3] -> frais de port
             var prixUnitaire = CalculPrixUnitaire(valeurs[0],valeurs[2]);
@@ -302,6 +334,7 @@
                 total += valeurs[0]*0.15;
             }
             total = total.toFixed(2);
+            ValeursPaypal(prixUnitaire,valeurs[0],valeurs[1],valeurs[2],valeurs[3]);
             return total;
         }
         
