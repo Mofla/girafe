@@ -13,102 +13,7 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
         <!--
-            /* /////////////////\\\\\\\\\\\\\\\\\\ */
-            table{
-                margin:auto;
-                border:1px solid rgba(0,0,0,0.2);
-            }
-            td{
-                padding:20px;
-                border:none;
-                margin:auto;
-            }
-            /* /////////////////\\\\\\\\\\\\\\\\\\ */
-            input[type=range] {
-                -webkit-appearance: none;
-                background:transparent;
-                width: 100%;
-                height:16px;
-                border-color:transparent;
-                color:transparent;
-            }
-            /* Firefox */
             
-                /* le curseur */
-            input[type=range]::-moz-range-thumb{
-                height:14px;
-                width:8px;
-                background:#F64D00;
-                border:1px solid #F64D00;
-                border-radius:0;
-            }
-                /* la barre */
-            input[type=range]:hover::-moz-range-track{
-                background: #ccc;
-            }
-            /* Chrome,Opera,Safari */
-                /* le curseur */
-            input[type=range]::-webkit-slider-thumb{
-                height:14px;
-                width:8px;
-                background:#F64D00;
-                border:1px solid #F64D00;
-                border-radius:0;
-            }
-                /* la barre */
-            input[type=range]:hover::-webkit-slider-runnable-track{
-                background: #ccc;
-            }
-            /* IE */
-                /* le curseur */
-            input[type=range]::-ms-thumb{
-                height:14px;
-                width:8px;
-                background:#F64D00;
-                border:1px solid #F64D00;
-                border-radius:0;
-            }
-                /* la barre */
-            input[type=range]:hover::-ms-fill-upper{
-                background: #ccc;
-            }
-            /* /////////////////\\\\\\\\\\\\\\\\\\ */
-            select{
-                color:#F64D00;
-            }
-            /* /////////////////\\\\\\\\\\\\\\\\\\ */
-            .btn-commander{
-                display:block;
-                margin:auto;
-                border:2px solid #F64D00;
-                color:#F64D00;
-                text-transform: uppercase;
-                font-weight: bold;
-                padding:8px 16px;
-            }
-            
-            .btn-commander:hover{
-                background:#F64D00;
-                color:white;
-            }
-            /* /////////////////\\\\\\\\\\\\\\\\\\ */
-            form{
-                font-style: italic;
-                max-width: 90%;
-            }
-            form h6{
-                color:#F64D00;
-                text-shadow: 0 0 1px #ddd;
-                font-style: normal;
-            }
-            
-            .gras{
-                color:#F64D00;
-                font-weight: bold;
-                text-shadow: 0 0 1px #ddd;
-                font-style: normal;
-            }
-            /* /////////////////\\\\\\\\\\\\\\\\\\ */
         -->
     </style>
     <!-- Links -->
@@ -130,7 +35,7 @@
     <![endif]-->
     <script src='js/device.min.js'></script>
 </head>
-<body onload="Afficher();">
+<body onload="afficher()">
 <div class="page">
     <!--========================================================
                               HEADER
@@ -216,23 +121,25 @@
 
     <main>
        <form>
-        <table>
+        <table border=1>
             <tr>
-                <td colspan=2><input type="range" min="500" max="10000" step="500" value="1" oninput="document.getElementById('quantite').textContent=value;Afficher()"/></td>
+                <td>Quantité :</td><!--
+                <td><input type="text" value="500" id="quantite" style="width:70px;" /></td>
+                <td><a href="#" onclick="quantite('+');">+</a><a href="#" onclick="quantite('-');">-</a></td>-->
+                <td colspan=2><input type="range" min="500" max="10000" step="500" oninput="document.getElementById('quantite').textContent=value;afficher()"/></td>
             </tr>
             <tr>
-                <td>Quantité : <span id="quantite" class="gras">500</span></td>
-                <td>Prix par unité : <h6 id="prixuni">1.80</h6><b> €</b></td>
+                <td colspan=1><span id="quantite">500</span></td>
+                <td colspan=2>Prix par unité :<h6 id="prixuni">1.80</h6>€</td>
             </tr>
             <tr>
-                <td>Anneaux montés :</td>
-                <td><input type="radio" name="anneau" id="avec-anneau" value="avec" onchange="Afficher()"/>Avec
-                <input type="radio" name="anneau" id="sans-anneau" value="sans" onchange="Afficher()" checked/>Sans</td>
+                <td colspan=2>Anneaux montés :</td>
+                <td><input type="checkbox" name="anneau" id="anneau" value="avec" onchange="afficher();"/>Avec<br></td>
             </tr>
             <tr>
-                <td>Méthode de marquage :</td>
+                <td colspan=2>Méthode de marquage :</td>
                 <td>
-                    <select name="marquage" id="marquage" onchange="Afficher()" >
+                    <select name="marquage" id="marquage" onchange="afficher();" >
                         <option value="Laser">Gravure laser</option>
                         <option value="Seri1">Sérigraphie 1 couleur</option>
                         <option value="Seri2">Sérigraphie 2 couleurs</option>
@@ -240,84 +147,97 @@
                 </td>
             </tr>
             <tr>
-                <td>Frais de port :</td>
-                <td><h6 id="fdp"></h6><b> €</b></td>
+                <td colspan=2>Frais de port :</td>
+                <td><h6 id="fdp"></h6>€</td>
             </tr>
             <tr>
-                <td>Total :</td>
-                <td><h6 id="total"></h6><b> €</b></td>
+                <td colspan=2>Total :</td>
+                <td><h6 id="total"></h6>€</td>
             </tr>
             <tr>
-                <td colspan=2><button class="btn-commander">Commander</button></td>
+                <td colspan=3><a onclick="afficher()">Essayer</a></td>
             </tr>
         </table>
        </form>
     <script type="text/javascript">
-        //récupération des données
-        function recupVars() {
-            // récupérer la quantité
-            var quantite = parseInt(document.getElementById('quantite').innerHTML);
-            // récupérer le booléen pour l'anneau
-            if (document.getElementById('avec-anneau').checked) {
-                var anneau = document.getElementById('avec-anneau').value;
-            }
-            else{
-                var anneau = document.getElementById('sans-anneau').value;
-            }
-            // récupérer la méthode de marquage
-            var marquage = document.getElementById('marquage').value;
-            // calcul des frais de port
-            var fraisDePort = 5.9+2*(quantite/500-1);
-
-            return [quantite,anneau,marquage,fraisDePort];
+        // calcul des fdp
+        function frais() {
+            var doc = document.getElementById('quantite');
+            var docFdp = document.getElementById('fdp');
+            var docValue = parseInt(doc.innerHTML);
+            docValue = docValue / 500 - 1;
+            var total = parseInt(docValue*2)+5.90;
+            return total;
         }
-        //calcul prix unitaire des clés
-        function CalculPrixUnitaire(q,type) {
-            var prixUnitaire;
+        // calculer le prix des clés selon la quantité
+        function calc(q,type){
+            var a,b,c;
             switch (type) {
                 case 'Laser':
-                    prixUnitaire = -0.0000747368421052*q+1.8373684210526;
+                    a = (1.80-1.09)/19;
+                    b = q/500-1;
+                    c = 1.80;
                     break;
                 case 'Seri1':
-                    prixUnitaire =  -0.000078947368421053*q+2.1394736842105;
+                    a = (2.10-1.35)/19;
+                    b = q/500-1;
+                    c = 2.10;
                     break;
                 case 'Seri2':
-                    prixUnitaire = -0.000091578947368421*q+2.3357894736842;
+                    a = (2.29-1.42)/19;
+                    b = q/500-1;
+                    c = 2.29;
                     break;
             }
-            return prixUnitaire.toFixed(2);
+            b = a*b;
+            b = c-b;
+            b = b.toFixed(2);
+            return b;
         }
+        // ajouter ou diminuer le nb de clés
+        function quantite(act) {
+            var doc = document.getElementById('quantite');
+            var docValue = parseInt(doc.value);
+            if (act == '+' && docValue < 10000) {
+                docValue += 500;
+            }
+            else if(act == '-' && docValue > 500){
+                docValue -= 500;
+            }
+            doc.value = docValue;
+            frais();
+        }
+        // récupérer la quantité dans l'input
         
         // calcul du total
-        function calculTotal() {
-            // je récup les différentes valeurs dans un tableau
-            var valeurs = recupVars();
-            // valeurs[0] -> quantite
-            // valeurs[1] -> bool anneau
-            // valeurs[2] -> type de marquage
-            // valeurs[3] -> frais de port
-            var prixUnitaire = CalculPrixUnitaire(valeurs[0],valeurs[2]);
-            var total = prixUnitaire*valeurs[0]+valeurs[3];
-            if (valeurs[1] === 'avec') {
-                total += valeurs[0]*0.15;
+        function Calctotal() {
+            var q = parseInt(document.getElementById('quantite').innerHTML);
+            var fdp = frais();
+            var ring = document.getElementById('anneau').checked;
+            var t = document.getElementById('marquage').value;
+            var cal = calc(q,t)*q;
+            var total;
+            if(ring) {
+                total = cal+fdp+(q*0.15);
+            }
+            else{
+                total = cal+fdp;
             }
             total = total.toFixed(2);
             return total;
         }
-        
-        // afficher les valeurs dans le html
-        function Afficher() {
-            var total = calculTotal();
-            var vals = recupVars();
-            var prixUni = CalculPrixUnitaire(vals[0],vals[2]);
-            document.getElementById('total').innerHTML = total;
-            document.getElementById('fdp').innerHTML = vals[3];
-            document.getElementById('prixuni').innerHTML = prixUni;
-        }
-        
-        function test() {
-            var t = recupVars();
-            alert(t);
+        //afficher tout
+        function afficher() {
+            var qu = parseInt(document.getElementById('quantite').innerHTML);
+            var t = document.getElementById('marquage').value;
+            var doc = document.getElementById('total');
+            var dok = document.getElementById('fdp');
+            var docc = document.getElementById('prixuni');
+            var fdp = frais();
+            var total = Calctotal();
+            doc.innerHTML = total;
+            dok.innerHTML = fdp;
+            docc.innerHTML = calc(qu,t);
         }
     </script>
     </main>
